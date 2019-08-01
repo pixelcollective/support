@@ -91,4 +91,15 @@ class Utility
 
         return false;
     }
+
+    /**
+     * Convert path to namespace
+     *
+     * @param  string $path
+     * @return string
+     */
+    protected static function pathToNamespace($path)
+    {
+        return str_replace('/', '\\', $path);
+    }
 }
