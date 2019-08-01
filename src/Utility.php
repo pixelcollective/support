@@ -98,7 +98,7 @@ class Utility
      * @param  string $path
      * @return string
      */
-    protected static function pathToNamespace($path)
+    public static function pathToNamespace($path)
     {
         return str_replace('/', '\\', $path);
     }
