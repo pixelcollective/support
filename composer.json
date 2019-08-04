@@ -1,8 +1,8 @@
 {
-    "name": "tiny-pixel/acorn-support",
+    "name": "tiny-pixel/support",
     "type": "package",
     "license": "MIT",
-    "description": "Supports and utilities for building with Acorn",
+    "description": "Internal supports and utilities",
     "authors": [
         {
             "name": "Kelly Mears",
@@ -11,19 +11,18 @@
     ],
     "keywords": [
         "wordpress",
-        "roots",
-        "acorn",
-        "support"
+        "support",
+        "tiny-pixel"
     ],
         "support": {
         "issues": "https://github.com/pixelcollective/acorn-support/issues"
     },
     "autoload": {
         "psr-4": {
-            "TinyPixel\\Acorn\\Support\\": "src/"
+            "TinyPixel\\Support\\": "src/"
         }
     },
     "require": {
-    "php": ">=7.3"
+        "php": ">=7.3"
     }
 }

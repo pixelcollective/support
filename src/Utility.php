@@ -1,6 +1,6 @@
 <?php
 
-namespace TinyPixel\Acorn\Support;
+namespace TinyPixel\Support;
 
 /**
  * Utility
@@ -9,14 +9,13 @@ namespace TinyPixel\Acorn\Support;
  * @license MIT
  * @since   1.0.0
  *
- * @package    Acorn
+ * @package    TinyPixel
  * @subpackage Support
- *
  */
 class Utility
 {
     /**
-     * Is Serialized
+     * Determines if given string is serialized
      *
      * @param  string $data
      * @param  bool   $strict
@@ -76,6 +75,7 @@ class Utility
                 } elseif (false === strpos($data, '"')) {
                     return false;
                 }
+                // fallthrough
             case 'a':
                 // fallthrough
             case 'O':
@@ -93,13 +93,30 @@ class Utility
     }
 
     /**
-     * Convert path to namespace
+     * Formats path as PSR-4 compliant namespace
      *
      * @param  string $path
      * @return string
      */
-    public static function pathToNamespace($path)
+    public static function convertPathToNamespace($path)
     {
         return str_replace('/', '\\', $path);
+    }
+
+    /**
+     * Returns true if Request was socketed
+     *
+     * @return bool
+     */
+    public static function isSecure()
+    {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+            return true;
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ||
+        !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
+            return true;
+        }
+
+        return false;
     }
 }
