@@ -15,7 +15,7 @@
         "tiny-pixel"
     ],
         "support": {
-        "issues": "https://github.com/pixelcollective/acorn-support/issues"
+        "issues": "https://github.com/pixelcollective/support/issues"
     },
     "autoload": {
         "psr-4": {
