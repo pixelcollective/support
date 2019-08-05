@@ -1,12 +1,18 @@
 <?php
 
+namespace TinyPixel\Support;
 
-namespace TinyPixel\Acorn\Support;
 use Illuminate\Support\Collection;
 
+/**
+ * MimeType utilities as a Collection extension.
+ *
+ * @package TinyPixel\Support
+ * @uses    \Illuminate\Support\Collection
+ */
 class MimeTypes extends Collection
 {
-    protected $types = [
+    protected static $types = [
         '3gp'     => 'video/3gpp',
         'ai'      => 'application/postscript',
         'aif'     => 'audio/x-aiff',
@@ -264,21 +270,18 @@ class MimeTypes extends Collection
     ];
 
     /**
-     * Create a new collection.
+     * Create a new collection instance if the value isn't one already.
      *
+     * @param  mixed  $items
+     * @return static
      */
-    public function __construct()
+    public static function make($items = [])
     {
-        $this->items = $this->getArrayableItems($this->types);
+        $types = new static(self::$types);
 
-        $this->items->each(function($mimeType, $extension) {
-            return [
-                'mimeType'  => $mimeType,
-                'extension' => $extension,
-            ];
+        return $types->map(function($mimeType, $extension) {
+            return $mimeType;
         });
-
-        return $this->items;
     }
 
     /**
@@ -286,9 +289,11 @@ class MimeTypes extends Collection
      *
      * @return MimeTypes
      */
-    public function images() : MimeTypes
+    public function image() : MimeTypes
     {
-        return $this->whereIn('extension', $this->imageExtensions);
+        return $this->filter(function ($mime, $ext) {
+            return in_array($ext, $this->imageExtensions);
+        });
     }
 
     /**
@@ -296,9 +301,11 @@ class MimeTypes extends Collection
      *
      * @return MimeTypes
      */
-    public function wordPressCompatible() : MimeTypes
+    public function mediaLibraryCompatible() : MimeTypes
     {
-        return $this->whereIn('extension', $this->wordPressExtensions);
+        return $this->filter(function ($mime, $ext) {
+            return in_array($ext, $this->wordPressExtensions);
+        });
     }
 
     /**
@@ -308,7 +315,9 @@ class MimeTypes extends Collection
      */
     public function documents() : MimeTypes
     {
-        return $this->only('extension', $this->documentExtensions);
+        return $this->filter(function ($mime, $ext) {
+            return in_array($ext, $this->documentExtensions);
+        });
     }
 
     /**
@@ -318,7 +327,9 @@ class MimeTypes extends Collection
      */
     public function audio() : MimeTypes
     {
-        return $this->only('extension', $this->audioExtensions);
+        return $this->filter(function ($mime, $ext) {
+            return in_array($ext, $this->audioExtensions);
+        });
     }
 
     /**
@@ -328,19 +339,21 @@ class MimeTypes extends Collection
      */
     public function video() : MimeTypes
     {
-        return $this->only('extension', $this->videoExtensions);
+        return $this->filter(function ($mime, $ext) {
+            return in_array($ext, $this->videoExtensions);
+        });
     }
 
     /**
      * Returns items prepended with a "."
      *
-     * @return MimeTypes
+     * @return array
      */
-    public function withDot() : MimeTypes
+    public function dotExt() : array
     {
-        return $this->each(function ($mimeType, $extension) {
-            return ".{$extension}";
-        });
+        return $this->transform(function ($mime, $ext) {
+            return $ext = ".{$ext}";
+        })->values()->toArray();
     }
 
     /**
@@ -350,14 +363,23 @@ class MimeTypes extends Collection
      *
      * @return MimeTypes
      */
-    public function isType(string $file) : MimeTypes
+    public function supportsFile(string $file)
     {
-        return $this->where('extension', (
-            explode('.', $file))[1]
-        )->get('extension');
+        if($this->has(explode('.', $file)[1])) {
+            return $this;
+        }
+
+        return false;
     }
 
+    public function types()
+    {
+        return $this->values()->toArray();
+    }
+
+    public function exts()
+    {
+        return $this->keys()->toArray();
+    }
 }
-
-
 
