@@ -185,6 +185,84 @@ class MimeTypes extends Collection
         'zip'     => 'application/zip',
     ];
 
+    /** @var array */
+    public $imageExtensions = [
+        'jpg',
+        'jpeg',
+        'png',
+        'gif',
+        'ico',
+    ];
+
+    /** @var array */
+    public $wordPressExtensions = [
+        'jpg',
+        'jpeg',
+        'png',
+        'gif',
+        'ico',
+        'pdf',
+        'doc',
+        'docx',
+        'ppt',
+        'pptx',
+        'pps',
+        'ppsx',
+        'odt',
+        'xls',
+        'xlsx',
+        'psd',
+        'mp3',
+        'm4a',
+        'ogg',
+        'wav',
+        'mp4',
+        'm4v',
+        'mov',
+        'wmv',
+        'avi',
+        'mpg',
+        'ogv',
+        '3gp',
+        '3g2',
+    ];
+
+    /** @var array */
+    public $documentExtensions = [
+        'pdf',
+        'doc',
+        'docx',
+        'ppt',
+        'pptx',
+        'pps',
+        'ppsx',
+        'odt',
+        'xls',
+        'xlsx',
+        'psd',
+    ];
+
+    /** @var array */
+    public $audioExtensions = [
+        'mp3',
+        'm4a',
+        'ogg',
+        'wav',
+    ];
+
+    /** @var array */
+    public $videoExtensions = [
+        'mp4',
+        'm4v',
+        'mov',
+        'wmv',
+        'avi',
+        'mpg',
+        'ogv',
+        '3gp',
+        '3g2',
+    ];
+
     /**
      * Create a new collection.
      *
@@ -192,6 +270,15 @@ class MimeTypes extends Collection
     public function __construct()
     {
         $this->items = $this->getArrayableItems($this->types);
+
+        $this->items->each(function($mimeType, $extension) {
+            return [
+                'mimeType'  => $mimeType,
+                'extension' => $extension,
+            ];
+        });
+
+        return $this->items;
     }
 
     /**
@@ -201,13 +288,7 @@ class MimeTypes extends Collection
      */
     public function images() : MimeTypes
     {
-        return $this->only([
-            'jpg',
-            'jpeg',
-            'png',
-            'gif',
-            'ico',
-        ]);
+        return $this->whereIn('extension', $this->imageExtensions);
     }
 
     /**
@@ -217,37 +298,7 @@ class MimeTypes extends Collection
      */
     public function wordPressCompatible() : MimeTypes
     {
-        return $this->only([
-            'jpg',
-            'jpeg',
-            'png',
-            'gif',
-            'ico',
-            'pdf',
-            'doc',
-            'docx',
-            'ppt',
-            'pptx',
-            'pps',
-            'ppsx',
-            'odt',
-            'xls',
-            'xlsx',
-            'psd',
-            'mp3',
-            'm4a',
-            'ogg',
-            'wav',
-            'mp4',
-            'm4v',
-            'mov',
-            'wmv',
-            'avi',
-            'mpg',
-            'ogv',
-            '3gp',
-            '3g2',
-        ]);
+        return $this->whereIn('extension', $this->wordPressExtensions);
     }
 
     /**
@@ -257,19 +308,7 @@ class MimeTypes extends Collection
      */
     public function documents() : MimeTypes
     {
-        return $this->only([
-            'pdf',
-            'doc',
-            'docx',
-            'ppt',
-            'pptx',
-            'pps',
-            'ppsx',
-            'odt',
-            'xls',
-            'xlsx',
-            'psd',
-        ]);
+        return $this->only('extension', $this->documentExtensions);
     }
 
     /**
@@ -279,12 +318,7 @@ class MimeTypes extends Collection
      */
     public function audio() : MimeTypes
     {
-        return $this->only([
-            'mp3',
-            'm4a',
-            'ogg',
-            'wav',
-        ]);
+        return $this->only('extension', $this->audioExtensions);
     }
 
     /**
@@ -294,17 +328,7 @@ class MimeTypes extends Collection
      */
     public function video() : MimeTypes
     {
-        return $this->only([
-            'mp4',
-            'm4v',
-            'mov',
-            'wmv',
-            'avi',
-            'mpg',
-            'ogv',
-            '3gp',
-            '3g2',
-        ]);
+        return $this->only('extension', $this->videoExtensions);
     }
 
     /**
@@ -314,10 +338,25 @@ class MimeTypes extends Collection
      */
     public function withDot() : MimeTypes
     {
-        return $this->each(function ($item) {
-            return ".{$item}";
+        return $this->each(function ($mimeType, $extension) {
+            return ".{$extension}";
         });
     }
+
+    /**
+     * Return type from a filename.
+     *
+     * @param string $file
+     *
+     * @return MimeTypes
+     */
+    public function isType(string $file) : MimeTypes
+    {
+        return $this->where('extension', (
+            explode('.', $file))[1]
+        )->get('extension');
+    }
+
 }
 
 

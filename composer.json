@@ -14,7 +14,7 @@
         "support",
         "tiny-pixel"
     ],
-        "support": {
+    "support": {
         "issues": "https://github.com/pixelcollective/support/issues"
     },
     "autoload": {
