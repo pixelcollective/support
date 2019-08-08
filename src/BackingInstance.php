@@ -14,14 +14,7 @@ abstract class BackingInstance
      *
      * @var Util
      */
-    protected static $instance;
-
-    /**
-     * Pimple container
-     *
-     * @var Pimple
-     */
-    protected $container;
+    private static $instance;
 
     /**
      * Parameters
@@ -31,15 +24,22 @@ abstract class BackingInstance
     protected $params;
 
     /**
+     * Pimple container
+     *
+     * @var Pimple
+     */
+    public $container;
+
+    /**
      * Constructor.
      */
     private function __construct()
     {
         $this->container = new Container();
 
-        $this->params();
+        $this->registerCoreParams();
 
-        $this->registerCore();
+        $this->registerCoreServices();
     }
 
     /**

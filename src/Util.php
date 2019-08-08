@@ -37,21 +37,21 @@ class Util extends BackingInstance
      *
      * @return void
      */
-    protected function registerCore() : void
+    protected function registerCoreServices() : void
     {
         /**
          * Static services
          */
         $this->container['collection'] = function ($c) {
-            return Collection::class;
+            return new Collection();
         };
 
-        $this->container['utility'] = function ($c) {
-            return Utilities::class;
+        $this->container['util'] = function ($c) {
+            return new Utilities();
         };
 
         $this->container['hashing'] = function ($c) {
-            return Hashing::class;
+            return new Hashing();
         };
 
         /**
