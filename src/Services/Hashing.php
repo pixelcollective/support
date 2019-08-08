@@ -1,12 +1,12 @@
 <?php
 
-namespace TinyPixel\Acorn\Support;
+namespace TinyPixel\Support\Services;
 
-use TinyPixel\Acorn\Support\Concerns\HashKeys;
 use Illuminate\Support\Collection;
+use TinyPixel\Support\Services\Concerns\HashKeys;
 
 /**
- * HashIt
+ * Hashing utility
  *
  * Based on PseudoCrypt by KevBurns
  * @see http://blog.kevburnsjr.com/php-unique-hash
@@ -19,7 +19,7 @@ use Illuminate\Support\Collection;
  * @subpackage Support
  *
  */
-class HashIt
+class Hashing
 {
     use HashKeys;
 

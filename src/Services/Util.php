@@ -1,24 +1,26 @@
 <?php
 
-namespace TinyPixel\Support;
+namespace TinyPixel\Support\Services;
 
 /**
- * Utility
+ * Grabbag utilities.
  *
- * @author  Kelly Mears <kelly@tinypixel.dev>
- * @license MIT
- * @since   1.0.0
+ * @author     Kelly Mears <developers@tinypixel.dev>
+ * @license    MIT
+ * @version    1.0.0
+ * @since      1.0.0
  *
- * @package    TinyPixel
- * @subpackage Support
+ * @package    TinyPixel\Support
+ * @subpackage Services\Serialize
  */
-class Utility
+class Utilities
 {
     /**
-     * Determines if given string is serialized
+     * is Serialized?
      *
      * @param  string $data
      * @param  bool   $strict
+     *
      * @return bool
      */
     public static function isSerialized($data, $strict = true)
@@ -76,6 +78,7 @@ class Utility
                     return false;
                 }
                 // fallthrough
+                // no break
             case 'a':
                 // fallthrough
             case 'O':
@@ -93,9 +96,10 @@ class Utility
     }
 
     /**
-     * Formats path as PSR-4 compliant namespace
+     * Transforms filepath to equivalent PSR-4 compliant namespace
      *
      * @param  string $path
+     *
      * @return string
      */
     public static function convertPathToNamespace($path)
@@ -112,11 +116,15 @@ class Utility
     {
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
             return true;
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ||
-        !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+            $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ||
+            !empty($_SERVER['HTTP_X_FORWARDED_SSL']) &&
+            $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on'
+        ) {
             return true;
         }
 
         return false;
     }
 }
+

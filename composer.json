@@ -23,6 +23,9 @@
         }
     },
     "require": {
-        "php": ">=7.3"
+        "php": ">=7.3",
+        "querypath/querypath": "^3.0",
+        "masterminds/html5": "^2.7",
+        "illuminate/support": "^5.8"
     }
 }

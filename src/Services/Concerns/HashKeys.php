@@ -1,6 +1,6 @@
 <?php
 
-namespace TinyPixel\Acorn\CDN\Helpers\Concerns;
+namespace TinyPixel\Support\Services\Concerns;
 
 trait HashKeys
 {

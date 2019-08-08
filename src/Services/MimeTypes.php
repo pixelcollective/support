@@ -1,14 +1,18 @@
 <?php
 
-namespace TinyPixel\Support;
-
-use Illuminate\Support\Collection;
+namespace TinyPixel\Support\Services;
 
 /**
- * MimeType utilities as a Collection extension.
+ * MimeType utilities.
  *
- * @package TinyPixel\Support
- * @uses    \Illuminate\Support\Collection
+ * @author     Kelly Mears <developers@tinypixel.dev>
+ * @license    MIT
+ * @version    1.0.0
+ * @since      1.0.0
+ * @uses       \Illuminate\Support\Collection
+ *
+ * @package    TinyPixel\Support
+ * @subpackage MimeTypes
  */
 class MimeTypes extends Collection
 {
